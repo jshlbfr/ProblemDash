@@ -1,16 +1,16 @@
-import { Button } from "@/components/ui/button";
+import { Route, Routes } from "react-router-dom";
+
+import DashboardPage from "@/pages/DashboardPage";
+import NotFoundPage from "@/pages/NotFoundPage";
+import ProblemsPage from "@/pages/ProblemsPage";
 
 function App() {
   return (
-    <main className="min-h-screen bg-background p-10 text-foreground">
-      <h1 className="text-4xl font-bold">ProblemDash</h1>
-
-      <p className="mt-2 text-muted-foreground">
-        A dashboard for tracking and managing problems.
-      </p>
-
-      <Button className="mt-6">Add Problem</Button>
-    </main>
+    <Routes>
+      <Route path="/" element={<DashboardPage />} />
+      <Route path="/problems" element={<ProblemsPage />} />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
   );
 }
 
