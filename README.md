@@ -25,4 +25,5 @@ Features
 - View dashboard statistics
 
 Status:
+
 🚧 Currently in development.
