@@ -2,14 +2,13 @@ import "./App.css";
 
 function App() {
   return (
-    // UI
-    <div>
-      <h1>ProblemDash</h1>
-      <p>
-        A dashboard for tracking and managing problems. This will be my ongoing
-        portfolio project!
+    <main className="min-h-screen bg-slate-950 p-10 text-white">
+      <h1 className="text-4xl font-bold">ProblemDash</h1>
+
+      <p className="mt-2 text-slate-400">
+        A dashboard for tracking and managing problems.
       </p>
-    </div>
+    </main>
   );
 }
 
