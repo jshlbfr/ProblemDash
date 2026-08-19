@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import AddProblemDialog from "@/components/problems/AddProblemDialog";
 import {
@@ -8,9 +9,29 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { problems } from "@/data/problems";
+import type { Problem } from "@/types/problem";
+import type { CreateProblemInput } from "@/schemas/problemSchema";
+import type { Dispatch, SetStateAction } from "react";
 
-function ProblemsPage() {
+type ProblemsPageProps = {
+  problems: Problem[];
+  setProblems: Dispatch<SetStateAction<Problem[]>>;
+};
+
+function ProblemsPage({ problems, setProblems }: ProblemsPageProps) {
+  function handleAddProblem(problemInput: CreateProblemInput) {
+    const newProblem: Problem = {
+      id: Date.now(),
+      title: problemInput.title,
+      description: problemInput.description,
+      status: "open",
+      priority: problemInput.priority,
+      createdAt: new Date().toLocaleDateString(),
+    };
+
+    setProblems((currentProblems) => [...currentProblems, newProblem]);
+  }
+
   return (
     <main className="p-8">
       <div className="flex items-center justify-between">
@@ -21,7 +42,7 @@ function ProblemsPage() {
             View and manage your reported problems.
           </p>
         </div>
-        <AddProblemDialog />{" "}
+        <AddProblemDialog onAddProblem={handleAddProblem} />{" "}
       </div>
 
       <div className="mt-8 rounded-md border">
@@ -38,8 +59,14 @@ function ProblemsPage() {
           <TableBody>
             {problems.map((problem) => (
               <TableRow key={problem.id}>
-                <TableCell className="font-medium">{problem.title}</TableCell>
-
+                <TableCell className="font-medium">
+                  <Link
+                    to={`/problems/${problem.id}`}
+                    className="hover:underline"
+                  >
+                    {problem.title}
+                  </Link>
+                </TableCell>
                 <TableCell>
                   <Badge variant="outline">{problem.status}</Badge>
                 </TableCell>

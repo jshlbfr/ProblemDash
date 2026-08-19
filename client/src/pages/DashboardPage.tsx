@@ -2,8 +2,27 @@ import { CheckCircle2, CircleAlert, Clock3, ListTodo } from "lucide-react";
 
 import StatCard from "@/components/dashboard/StatCard";
 import { Button } from "@/components/ui/button";
+import type { Problem } from "@/types/problem";
 
-function DashboardPage() {
+type DashboardPageProps = {
+  problems: Problem[];
+};
+
+function DashboardPage({ problems }: DashboardPageProps) {
+  const totalProblems = problems.length;
+
+  const openProblems = problems.filter(
+    (problem) => problem.status === "open",
+  ).length;
+
+  const inProgressProblems = problems.filter(
+    (problem) => problem.status === "in-progress",
+  ).length;
+
+  const resolvedProblems = problems.filter(
+    (problem) => problem.status === "resolved",
+  ).length;
+
   return (
     <main className="p-8">
       <div className="flex items-center justify-between">
@@ -19,13 +38,25 @@ function DashboardPage() {
       </div>
 
       <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard title="Total Problems" value={24} icon={ListTodo} />
+        <StatCard
+          title="Total Problems"
+          value={totalProblems}
+          icon={ListTodo}
+        />
 
-        <StatCard title="Open" value={12} icon={CircleAlert} />
+        <StatCard title="Open" value={openProblems} icon={CircleAlert} />
 
-        <StatCard title="In Progress" value={7} icon={Clock3} />
+        <StatCard
+          title="In Progress"
+          value={inProgressProblems}
+          icon={Clock3}
+        />
 
-        <StatCard title="Resolved" value={5} icon={CheckCircle2} />
+        <StatCard
+          title="Resolved"
+          value={resolvedProblems}
+          icon={CheckCircle2}
+        />
       </div>
     </main>
   );

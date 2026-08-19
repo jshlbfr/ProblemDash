@@ -1,5 +1,4 @@
 import { useState, type FormEvent } from "react";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,8 +10,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import type { Problem } from "@/types/problem";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -20,22 +21,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import {
   createProblemSchema,
   type CreateProblemInput,
 } from "@/schemas/problemSchema";
 
-type AddProblemDialogProps = {
-  onAddProblem: (problem: CreateProblemInput) => void;
+type EditProblemDialogProps = {
+  problem: Problem;
+  onEditProblem: (problem: CreateProblemInput) => void;
 };
 
-function AddProblemDialog({ onAddProblem }: AddProblemDialogProps) {
-  const [title, setTitle] = useState("");
+function EditProblemDialog({ problem, onEditProblem }: EditProblemDialogProps) {
   const [open, setOpen] = useState(false);
-  const [description, setDescription] = useState("");
-  const [priority, setPriority] =
-    useState<CreateProblemInput["priority"]>("medium");
+
+  const [title, setTitle] = useState(problem.title);
+  const [description, setDescription] = useState(problem.description);
+  const [priority, setPriority] = useState(problem.priority);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -65,37 +66,33 @@ function AddProblemDialog({ onAddProblem }: AddProblemDialogProps) {
 
     setErrors({});
 
-    onAddProblem(result.data);
+    onEditProblem(result.data);
 
-    setTitle("");
-    setDescription("");
-    setPriority("medium");
     setOpen(false);
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {" "}
-      <DialogTrigger render={<Button />}>Add Problem</DialogTrigger>
+      <DialogTrigger render={<Button />}>Edit Problem</DialogTrigger>
       <DialogContent>
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Add Problem</DialogTitle>
+            <DialogTitle>Edit Problem</DialogTitle>
 
             <DialogDescription>
-              Create a new problem to track in ProblemDash.
+              Update the details of this problem.
             </DialogDescription>
           </DialogHeader>
 
           <div className="grid gap-5 py-6">
             <div className="grid gap-2">
-              <Label htmlFor="title">Title</Label>
+              <Label htmlFor="edit-title">Title</Label>
 
               <Input
-                id="title"
+                id="edit-title"
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
-                placeholder="e.g. Login page returns an error"
               />
 
               {errors.title && (
@@ -104,13 +101,12 @@ function AddProblemDialog({ onAddProblem }: AddProblemDialogProps) {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor="edit-description">Description</Label>
 
               <Textarea
-                id="description"
+                id="edit-description"
                 value={description}
                 onChange={(event) => setDescription(event.target.value)}
-                placeholder="Describe the problem..."
               />
 
               {errors.description && (
@@ -124,7 +120,7 @@ function AddProblemDialog({ onAddProblem }: AddProblemDialogProps) {
               <Select
                 value={priority}
                 onValueChange={(value) =>
-                  setPriority(value as CreateProblemInput["priority"])
+                  setPriority(value as Problem["priority"])
                 }
               >
                 <SelectTrigger>
@@ -144,8 +140,7 @@ function AddProblemDialog({ onAddProblem }: AddProblemDialogProps) {
             <DialogClose render={<Button variant="outline" />}>
               Cancel
             </DialogClose>
-
-            <Button type="submit">Create Problem</Button>
+            <Button type="submit">Save Changes</Button>{" "}
           </DialogFooter>
         </form>
       </DialogContent>
@@ -153,4 +148,4 @@ function AddProblemDialog({ onAddProblem }: AddProblemDialogProps) {
   );
 }
 
-export default AddProblemDialog;
+export default EditProblemDialog;
