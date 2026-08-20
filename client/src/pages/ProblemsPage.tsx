@@ -21,7 +21,10 @@ type ProblemsPageProps = {
 function ProblemsPage({ problems, setProblems }: ProblemsPageProps) {
   function handleAddProblem(problemInput: CreateProblemInput) {
     const newProblem: Problem = {
-      id: Date.now(),
+      id:
+        problems.length === 0
+          ? 1
+          : Math.max(...problems.map((problem) => problem.id)) + 1,
       title: problemInput.title,
       description: problemInput.description,
       status: "open",
