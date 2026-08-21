@@ -1,7 +1,6 @@
 import { CheckCircle2, CircleAlert, Clock3, ListTodo } from "lucide-react";
 
 import StatCard from "@/components/dashboard/StatCard";
-import { Button } from "@/components/ui/button";
 import type { Problem } from "@/types/problem";
 
 type DashboardPageProps = {
@@ -33,8 +32,6 @@ function DashboardPage({ problems }: DashboardPageProps) {
             Overview of your problems and activity.
           </p>
         </div>
-
-        <Button>Add Problem</Button>
       </div>
 
       <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
