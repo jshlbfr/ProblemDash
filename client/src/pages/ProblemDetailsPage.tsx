@@ -63,6 +63,10 @@ function ProblemDetailsPage({
         <p className="mt-2 text-muted-foreground">
           The problem you're looking for doesn't exist.
         </p>
+
+        <Button className="mt-4" onClick={() => navigate("/problems")}>
+          Back to Problems
+        </Button>
       </main>
     );
   }
